@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -58,16 +59,17 @@ int main(int argc, char *argv[]) {
         fprintf(stderr,"ERRO: erro no malloc");
     }
 
-    int xMenor =  -2;
-    int xMaior =  1;
-    int yMenor =  -1.5;
-    int yMaior =  1.5;
+    double xMenor =  -2;
+    double xMaior =  1;
+    double yMenor =  -1.5;
+    double yMaior =  1.5;
 
     double larguraPixel = (xMaior - xMenor)/largura;
     double alturaPixel = (yMaior - yMenor)/altura;
 
-
+    struct timespec inicio, fim;
     
+    clock_gettime(CLOCK_MONOTONIC,&inicio);
     for(int i = 0; i < altura; i++){//py
         for(int j = 0; j < largura; j++){//px
             double numComplexoReal = xMenor + j * larguraPixel;
@@ -77,6 +79,17 @@ int main(int argc, char *argv[]) {
             matriz[indice] = iteracoes/(double)maxIteracoes * 255;
         }
     }
+    clock_gettime(CLOCK_MONOTONIC,&fim);
+
+    double tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) * 0.000000001;
+
+    FILE *timesfile = fopen("times.txt","a");
+    if(timesfile == NULL){
+        fprintf(stderr,"ERRO: erro ao abrir o arquivo");
+        exit(1);
+    }
+    fprintf(timesfile, "serial: %f\n", tempo);
+    fclose(timesfile);
 
     FILE *arquivo = fopen("mandelbrot_agbo_serial.pgm","w");
     if(arquivo == NULL){
