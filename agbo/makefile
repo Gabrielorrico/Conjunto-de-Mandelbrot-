@@ -1,9 +1,10 @@
-
+CC = gcc
+CFLAGS = -fopenmp -lm -Wall -Wextra -g
 
 all: mandelbrot
 
 mandelbrot: src/main.c
-	gcc src/main.c -o mandelbrot
+	$(CC) src/main.c -o mandelbrot $(CFLAGS)
 
 clean: 
 	rm -f src/*.o mandelbrot *.pgm times.txt

@@ -43,7 +43,7 @@ int mandelbrot(int maxIteracoes,double numComplexoReal, double numComplexoImag){
 
 
 int main(int argc, char *argv[]) {
-    //./mandelbrot <altura> <largura> <maxIteracoes> <maxThreads>
+    //./mandelbrot <altura> <largura> <maxIteracoes> <numThreads>
     if(argc != 5){
         fprintf(stderr,"quantidade de argumentos invalida");
         exit(1);
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     int altura = verificaEntrada(argv[1],"altura");
     int largura = verificaEntrada(argv[2],"largura");
     int maxIteracoes = verificaEntrada(argv[3],"maxIteracoes");
-    int maxThreads = verificaEntrada(argv[4],"maxThreads");
+    int numThreads = verificaEntrada(argv[4],"numThreads");
 
     int *matriz = (int*)malloc(sizeof(int) * altura * largura);
     if(matriz == NULL){
@@ -68,8 +68,9 @@ int main(int argc, char *argv[]) {
     double alturaPixel = (yMaior - yMenor)/altura;
 
     struct timespec inicio, fim;
-    
+    //serial
     clock_gettime(CLOCK_MONOTONIC,&inicio);
+    
     for(int i = 0; i < altura; i++){//py
         for(int j = 0; j < largura; j++){//px
             double numComplexoReal = xMenor + j * larguraPixel;
@@ -83,28 +84,72 @@ int main(int argc, char *argv[]) {
 
     double tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) * 0.000000001;
 
-    FILE *timesfile = fopen("times.txt","a");
-    if(timesfile == NULL){
+    FILE *timesfileserial = fopen("times.txt","a");
+    if(timesfileserial == NULL){
         fprintf(stderr,"ERRO: erro ao abrir o arquivo");
         exit(1);
     }
-    fprintf(timesfile, "serial: %f\n", tempo);
-    fclose(timesfile);
+    fprintf(timesfileserial, "serial: %f\n", tempo);
+    fclose(timesfileserial);
 
-    FILE *arquivo = fopen("mandelbrot_agbo_serial.pgm","w");
-    if(arquivo == NULL){
+    FILE *arquivoserial = fopen("mandelbrot_agbo_serial.pgm","w");
+    if(arquivoserial == NULL){
         fprintf(stderr,"ERRO: erro ao abrir o arquivo");
         exit(1);
     }
 
     for(int i = 0; i < altura; i++){
         for(int j = 0; j < largura; j++){
-            fprintf(arquivo,"%d ",matriz[i*largura + j]);
+            fprintf(arquivoserial,"%d ",matriz[i*largura + j]);
         }
-        fprintf(arquivo,"\n");
+        fprintf(arquivoserial,"\n");
     }
 
-    fclose(arquivo);
+    fclose(arquivoserial);
+
+    //fim do serial
+    //openmp
+    
+    clock_gettime(CLOCK_MONOTONIC,&inicio);
+    
+    #pragma omp parallel for num_threads(numThreads)
+    
+    for(int i = 0; i < altura; i++){//py
+        for(int j = 0; j < largura; j++){//px
+            double numComplexoReal = xMenor + j * larguraPixel;
+            double numComplexoImag = yMenor + i * alturaPixel;
+            int iteracoes = mandelbrot(maxIteracoes,numComplexoReal,numComplexoImag);
+            int indice = i*largura + j;
+            matriz[indice] = iteracoes/(double)maxIteracoes * 255;
+        }
+    }
+    clock_gettime(CLOCK_MONOTONIC,&fim);
+
+    tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) * 0.000000001;
+
+    FILE *timesfileopenmp = fopen("times.txt","a");
+    if(timesfileopenmp == NULL){
+        fprintf(stderr,"ERRO: erro ao abrir o arquivo");
+        exit(1);
+    }
+    fprintf(timesfileopenmp, "openmp: %f\n", tempo);
+    fclose(timesfileopenmp);
+
+    FILE *arquivoopenmp = fopen("mandelbrot_agbo_openmp.pgm","w");
+    if(arquivoopenmp == NULL){
+        fprintf(stderr,"ERRO: erro ao abrir o arquivo");
+        exit(1);
+    }
+
+    for(int i = 0; i < altura; i++){
+        for(int j = 0; j < largura; j++){
+            fprintf(arquivoopenmp,"%d ",matriz[i*largura + j]);
+        }
+        fprintf(arquivoopenmp,"\n");
+    }
+
+    fclose(arquivoopenmp);
+    //fim openmp
 
     for(int i = 0; i < altura; i++){
         for(int j = 0; j<largura; j++){
