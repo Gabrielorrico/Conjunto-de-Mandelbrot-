@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -fopenmp -lm -Wall -Wextra -g
+CFLAGS = -fopenmp -pthread -lm -Wall -Wextra -g 
 
 all: mandelbrot
 

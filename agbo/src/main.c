@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <pthread.h>
 #define MAX_TAMANHO_ENTRADA 100
 #define MAX_NOME
 
@@ -181,7 +182,70 @@ int main(int argc, char *argv[]) {
     //fim openmp
     //inicio pthread1
 
+    pthread_t *ids = (pthread_t*)malloc(sizeof(pthread_t) * numThreads);
+    thread *threads = (thread*)malloc(sizeof(thread) * numThreads);
 
+    if(ids == NULL){
+        fprintf(stderr,"ERRO: erro ao alocar memoria para os ids dos Threads");
+        exit(1);
+    }
+
+    if(threads == NULL){
+        fprintf(stderr,"ERRO: erro ao alocar memoria para o vetor da struct de threads");
+        exit(1);
+    }
+
+    clock_gettime(CLOCK_MONOTONIC,&inicio);
+    
+    for(int t = 0; t < numThreads; t++){
+        threads[t].altura = altura;
+        threads[t].largura = largura;
+        threads[t].xMenor = xMenor;
+        threads[t].yMenor = yMenor;
+        threads[t].maxIteracoes = maxIteracoes;
+        threads[t].larguraPixel = larguraPixel;
+        threads[t].alturaPixel = alturaPixel;
+        threads[t].linhaInicial = altura/numThreads * t;
+        threads[t].linhaFinal = altura/numThreads * (t+1);
+        threads[t].matriz = matriz;
+        pthread_create(&ids[t],NULL,execThread,&threads[t]);
+
+    }
+
+    for(int t = 0; t < numThreads; t++){
+        pthread_join(ids[t],NULL);
+
+    }
+
+    clock_gettime(CLOCK_MONOTONIC,&fim);
+
+    tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) * 0.000000001;
+
+    FILE *timesfilepthreads1 = fopen("times.txt","a");
+    if(timesfilepthreads1 == NULL){
+        fprintf(stderr,"ERRO: erro ao abrir o arquivo");
+        exit(1);
+    }
+    fprintf(timesfilepthreads1, "pthreads1: %f\n", tempo);
+    fclose(timesfilepthreads1);
+
+    free(ids);
+    free(threads);
+
+    FILE *arquivopthreads = fopen("mandelbrot_agbo_pthreads1.pgm","w");
+    if(arquivopthreads == NULL){
+        fprintf(stderr,"ERRO: erro ao abrir o arquivo");
+        exit(1);
+    }
+
+    for(int i = 0; i < altura; i++){
+        for(int j = 0; j < largura; j++){
+            fprintf(arquivopthreads,"%d ",matriz[i*largura + j]);
+        }
+        fprintf(arquivopthreads,"\n");
+    }
+
+    fclose(arquivopthreads);
     
     return 0;
 }

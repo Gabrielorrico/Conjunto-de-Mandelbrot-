@@ -927,3 +927,11 @@ Script started on 2026-08-31 00:05:41-03:00 [TERM="xterm-256color" TTY="/dev/pts
 [?2004lexit
 
 Script done on 2026-08-31 00:07:11-03:00 [COMMAND_EXIT_CODE="0"]
+Script started on 2026-08-31 17:51:49-03:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="57" LINES="29"]
+[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ make
+[?2004lmake: Nothing to be done for 'all'.
+[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ mandelbrot[K[K[K[K[K[K[K[K[K[K./[K\[K/mandelbrot 800 600 1000 4
+[?2004l[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ [K[A[K]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ [K]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ [K]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ exit
+[?2004lexit
+
+Script done on 2026-08-31 17:53:25-03:00 [COMMAND_EXIT_CODE="0"]
