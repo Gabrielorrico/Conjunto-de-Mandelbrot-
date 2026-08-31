@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define MAX_TAMANHO_ENTRADA 100
 #define MAX_NOME
+
 
 int verificaEntrada(char args[],char argumento[]){
     char *endptr;
@@ -72,11 +74,26 @@ int main(int argc, char *argv[]) {
             double numComplexoImag = yMenor + i * alturaPixel;
             int iteracoes = mandelbrot(maxIteracoes,numComplexoReal,numComplexoImag);
             int indice = i*largura + j;
-            matriz[indice] = iteracoes;
+            matriz[indice] = iteracoes/(double)maxIteracoes * 255;
         }
     }
 
-    for(int i =0; i<altura; i++){
+    FILE *arquivo = fopen("mandelbrot_agbo_serial.pgm","w");
+    if(arquivo == NULL){
+        fprintf(stderr,"ERRO: erro ao abrir o arquivo");
+        exit(1);
+    }
+
+    for(int i = 0; i < altura; i++){
+        for(int j = 0; j < largura; j++){
+            fprintf(arquivo,"%d ",matriz[i*largura + j]);
+        }
+        fprintf(arquivo,"\n");
+    }
+
+    fclose(arquivo);
+
+    for(int i = 0; i < altura; i++){
         for(int j = 0; j<largura; j++){
             printf("%d ",matriz[i*largura + j]);
         }

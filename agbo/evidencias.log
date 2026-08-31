@@ -61,3 +61,21 @@ See 'snap info <snapname>' for additional versions.
 [?2004lexit
 
 Script done on 2026-08-30 15:52:07-03:00 [COMMAND_EXIT_CODE="0"]
+Script started on 2026-08-30 21:27:17-03:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="57" LINES="16"]
+[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ make
+[?2004lgcc src/main.c -o mandelbrot
+[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ ./mandelv[Kbrot 10 10 1000 1
+[?2004l0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 
+[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ [K[A[K]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ [K]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ [K]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ exit
+[?2004lexit
+
+Script done on 2026-08-30 21:37:44-03:00 [COMMAND_EXIT_CODE="0"]
