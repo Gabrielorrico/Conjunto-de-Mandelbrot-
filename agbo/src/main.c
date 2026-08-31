@@ -5,6 +5,35 @@
 #define MAX_TAMANHO_ENTRADA 100
 #define MAX_NOME
 
+typedef struct thread{
+    int *matriz;
+    int largura;
+    int altura;
+    int maxIteracoes;
+    int linhaInicial;
+    int linhaFinal;
+    double xMenor;
+    double yMenor;
+    double larguraPixel;
+    double alturaPixel;
+}thread;
+
+void* execThread(void* arg){
+    thread *temp = (thread*)arg;
+
+    for(int i = temp->linhaInicial; i < temp->linhaFinal; i++ ){
+        for(int j = 0; j < temp->largura; j++){
+            double numComplexoReal = temp->xMenor + j * temp->larguraPixel;
+            double numComplexoImag = temp->yMenor + i * temp->alturaPixel;
+            int iteracoes = mandelbrot(temp->maxIteracoes,numComplexoReal,numComplexoImag);
+            int indice = i*temp->largura + j;
+            temp->matriz[indice] = iteracoes/(double)temp->maxIteracoes * 255;
+
+        }
+    }
+    return NULL;
+}
+
 
 int verificaEntrada(char args[],char argumento[]){
     char *endptr;
@@ -150,13 +179,9 @@ int main(int argc, char *argv[]) {
 
     fclose(arquivoopenmp);
     //fim openmp
+    //inicio pthread1
 
-    for(int i = 0; i < altura; i++){
-        for(int j = 0; j<largura; j++){
-            printf("%d ",matriz[i*largura + j]);
-        }
-        printf("\n");
-    }
+
     
     return 0;
 }
