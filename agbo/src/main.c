@@ -20,6 +20,24 @@ typedef struct thread{
     double alturaPixel;
 }thread;
 
+int mandelbrot(int maxIteracoes,double numComplexoReal, double numComplexoImag){
+    double zReal = 0;
+    double zImag = 0;
+    int qtdIteracoes = 0;
+    for(int k = 0; k < maxIteracoes; k++){
+
+        if(zImag*zImag + zReal*zReal > 4){
+            return k;
+        }
+        double temp = zReal;
+        double novozReal = temp*temp - zImag*zImag + numComplexoReal;
+        zReal = novozReal;
+        zImag = 2 * temp * zImag + numComplexoImag;
+        qtdIteracoes++;
+    }
+    return qtdIteracoes;
+}
+
 void* execThread2(void* arg){
     thread *temp = (thread*)arg;
 
@@ -53,43 +71,22 @@ void* execThread(void* arg){
 }
 
 
-int verificaEntrada(char args[],char argumento[]){
-    FILE *filerro2 = NULL;
-    filerro2 = fopen("erros.txt","w");
+int verificaEntrada(char args[],char argumento[],FILE *filerro){
 
     char *endptr;
     int numConvertido = strtol(args,&endptr,10);
     if(*endptr != '\0'){
-        fprintf(filerro2,"ERRO: argumento %s escrito errado", argumento);
+        fprintf(filerro,"ERRO: argumento %s escrito errado", argumento);
         exit(1);
     }
 
     if(numConvertido <= 0){
-        fprintf(filerro2,"ERRO: argumento %s precisa ter um tamanho maior",argumento);
+        fprintf(filerro,"ERRO: argumento %s precisa ter um tamanho maior",argumento);
         exit(1);
     }
 
     return numConvertido;
 }
-
-int mandelbrot(int maxIteracoes,double numComplexoReal, double numComplexoImag){
-    double zReal = 0;
-    double zImag = 0;
-    int qtdIteracoes = 0;
-    for(int k = 0; k < maxIteracoes; k++){
-
-        if(zImag*zImag + zReal*zReal > 4){
-            return k;
-        }
-        double temp = zReal;
-        double novozReal = temp*temp - zImag*zImag + numComplexoReal;
-        zReal = novozReal;
-        zImag = 2 * temp * zImag + numComplexoImag;
-        qtdIteracoes++;
-    }
-    return qtdIteracoes;
-}
-
 
 
 int main(int argc, char *argv[]) {
@@ -97,7 +94,6 @@ int main(int argc, char *argv[]) {
     FILE* filerro = NULL;
     filerro = fopen("erros.txt","w");
     if(filerro == NULL){
-        fprintf(stderr,"ERRO AO ABRIR O ARQUIVO DE ERRO");
         exit(1);
     }
     //./mandelbrot <altura> <largura> <maxIteracoes> <numThreads>
@@ -106,10 +102,10 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    int altura = verificaEntrada(argv[1],"altura");
-    int largura = verificaEntrada(argv[2],"largura");
-    int maxIteracoes = verificaEntrada(argv[3],"maxIteracoes");
-    int numThreads = verificaEntrada(argv[4],"numThreads");
+    int altura = verificaEntrada(argv[1],"altura",filerro);
+    int largura = verificaEntrada(argv[2],"largura",filerro);
+    int maxIteracoes = verificaEntrada(argv[3],"maxIteracoes",filerro);
+    int numThreads = verificaEntrada(argv[4],"numThreads",filerro);
 
     int *matriz = (int*)malloc(sizeof(int) * altura * largura);
     if(matriz == NULL){

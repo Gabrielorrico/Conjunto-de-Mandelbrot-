@@ -967,3 +967,11 @@ make: *** [makefile:7: mandelbrot] Error 1
 [?2004lexit
 
 Script done on 2026-09-01 11:43:57-03:00 [COMMAND_EXIT_CODE="0"]
+Script started on 2026-09-01 16:49:11-03:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="156" LINES="10"]
+[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ make
+[?2004lgcc src/main.c -o mandelbrot -fopenmp -pthread -lm -Wall -Wextra -g 
+[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ makeexitcd agbomake clean./mandelbrot 100 100 1000 14[C[1P[17Pmake clean./mandelbrot 100 10 1000 14[1P[C[C[C[C[C[C[C[C[C[C[C[K[K4[K5
+[?2004l[?2004h]0;gabri@alien: /mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[01;32mgabri@alien[00m:[01;34m/mnt/c/Users/gabri/Conjunto-de-Mandelbrot-/agbo[00m$ exit
+[?2004lexit
+
+Script done on 2026-09-01 16:49:46-03:00 [COMMAND_EXIT_CODE="0"]
