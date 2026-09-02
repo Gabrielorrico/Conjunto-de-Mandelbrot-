@@ -102,8 +102,8 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    int altura = verificaEntrada(argv[1],"altura",filerro);
-    int largura = verificaEntrada(argv[2],"largura",filerro);
+    int largura = verificaEntrada(argv[1],"largura",filerro);
+    int altura = verificaEntrada(argv[2],"altura",filerro);
     int maxIteracoes = verificaEntrada(argv[3],"maxIteracoes",filerro);
     int numThreads = verificaEntrada(argv[4],"numThreads",filerro);
 
@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
 
     double tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) * 0.000000001;
 
-    FILE *timesfileserial = fopen("times.txt","a");
+    FILE *timesfileserial = fopen("times.txt","w");
     if(timesfileserial == NULL){
         fprintf(filerro,"ERRO: erro ao abrir o arquivo");
         exit(1);
