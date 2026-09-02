@@ -38,18 +38,11 @@ int mandelbrot(int maxIteracoes,double numComplexoReal, double numComplexoImag){
     return qtdIteracoes;
 }
 
-void* execThread2(void* arg){
+void* execNormalizacao(void* arg){
     thread *temp = (thread*)arg;
 
-    for(int i = temp->linhaInicial; i < temp->altura; i = i + temp->numThreads ){
-        for(int j = 0; j < temp->largura; j++){
-            double numComplexoReal = temp->xMenor + j * temp->larguraPixel;
-            double numComplexoImag = temp->yMenor + i * temp->alturaPixel;
-            int iteracoes = mandelbrot(temp->maxIteracoes,numComplexoReal,numComplexoImag);
-            int indice = i*temp->largura + j;
-            temp->matriz[indice] = iteracoes/(double)temp->maxIteracoes * 255;
-
-        }
+    for(int k = temp->linhaInicial; k < temp->largura * temp->altura; k = k + temp->numThreads){
+        temp->matriz[k] = temp->matriz[k]/(double)temp->maxIteracoes * 255;
     }
     return NULL;
 }
@@ -287,28 +280,32 @@ int main(int argc, char *argv[]) {
     }
 
     clock_gettime(CLOCK_MONOTONIC,&inicio);
-    
+
+    for(int i = 0; i < altura; i++){//py
+        for(int j = 0; j < largura; j++){//px
+            double numComplexoReal = xMenor + j * larguraPixel;
+            double numComplexoImag = yMenor + i * alturaPixel;
+            int iteracoes = mandelbrot(maxIteracoes,numComplexoReal,numComplexoImag);
+            int indice = i*largura + j;
+            matriz[indice] = iteracoes;
+        }
+    }
+
     for(int t = 0; t < numThreads; t++){
-        threads[t].numThreads = numThreads;
         threads[t].altura = altura;
         threads[t].largura = largura;
-        threads[t].xMenor = xMenor;
-        threads[t].yMenor = yMenor;
         threads[t].maxIteracoes = maxIteracoes;
-        threads[t].larguraPixel = larguraPixel;
-        threads[t].alturaPixel = alturaPixel;
+        threads[t].numThreads = numThreads;
         threads[t].linhaInicial = t;
-        threads[t].linhaFinal = altura/numThreads * (t+1);
         threads[t].matriz = matriz;
-        pthread_create(&ids[t],NULL,execThread2,&threads[t]);
+        pthread_create(&ids[t],NULL,execNormalizacao,&threads[t]);
 
     }
 
     for(int t = 0; t < numThreads; t++){
-        pthread_join(ids[t],NULL);
-
+        pthread_join(ids[t], NULL);
     }
-
+    
     clock_gettime(CLOCK_MONOTONIC,&fim);
 
     tempo = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) * 0.000000001;
